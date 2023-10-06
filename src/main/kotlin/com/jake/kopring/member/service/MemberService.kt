@@ -1,5 +1,6 @@
 package com.jake.kopring.member.service
 
+import com.jake.kopring.common.exception.InvalidInputException
 import com.jake.kopring.member.dto.MemberDtoRequest
 import com.jake.kopring.member.entity.Member
 import com.jake.kopring.member.repository.MemberRepository
@@ -18,19 +19,10 @@ class MemberService(
     fun signUp(request: MemberDtoRequest): String {
         var member = memberRepository.findByMemberId(request.id)
         if (member != null) {
-            return "이미 등록된 ID 입니다."
+            throw InvalidInputException("id", "이미 등록된 ID 입니다.")
         }
 
-        member = Member(
-            null,
-            request.id,
-            request.password,
-            request.name,
-            request.birthDate,
-            request.gender,
-            request.email
-        )
-
+        member = request.toEntity()
         memberRepository.save(member)
 
         return "${member.name} 님, 회원가입이 완료되었습니다."

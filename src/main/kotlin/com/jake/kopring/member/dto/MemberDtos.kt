@@ -3,6 +3,7 @@ package com.jake.kopring.member.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.jake.kopring.common.annotation.ValidEnum
 import com.jake.kopring.common.status.Gender
+import com.jake.kopring.member.entity.Member
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
@@ -67,4 +68,7 @@ data class MemberDtoRequest(
     // String to LocalDate 변환을 위해 확장 함수 선언
     private fun String.toLocalDate(): LocalDate =
         LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+    fun toEntity(): Member =
+        Member(no, id, password, name, birthDate, gender, email)
 }
