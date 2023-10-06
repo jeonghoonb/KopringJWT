@@ -12,15 +12,15 @@ spring:
       username: toy
       password: password12#$
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jpa:
-        open-in-view: true
-        hibernate:
-          ddl-auto: create
-        properties:
-          hibernate:
-            show_sql: false
-            format_sql: true
-            highlight_sql: true
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+        highlight_sql: true
 logging:
   pattern:
     console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
