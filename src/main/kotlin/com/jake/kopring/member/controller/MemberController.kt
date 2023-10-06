@@ -2,6 +2,7 @@ package com.jake.kopring.member.controller
 
 import com.jake.kopring.member.dto.MemberDtoRequest
 import com.jake.kopring.member.service.MemberService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,7 +18,7 @@ class MemberController(
      * 회원가입
      */
     @PostMapping("/signup")
-    fun signUp(@RequestBody request: MemberDtoRequest): String {
+    fun signUp(@RequestBody @Valid request: MemberDtoRequest): String {
         return memberService.signUp(request)
     }
 }

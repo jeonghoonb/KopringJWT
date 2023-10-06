@@ -25,15 +25,17 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
-
+// JPA: plugin.spring에서 open 해주는 것 외에 추가로 open 해줄 것을 명시
 allOpen {
 	annotation("jakarta.persistence.Entity")
 }
 
+// JPA: 매개변수가 없는 생성자를 자동으로 추가
 noArg {
 	annotation("jakarta.persistence.Entity")
 }
