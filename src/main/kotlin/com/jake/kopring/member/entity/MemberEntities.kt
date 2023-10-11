@@ -1,6 +1,7 @@
 package com.jake.kopring.member.entity
 
 import com.jake.kopring.common.status.Gender
+import com.jake.kopring.common.status.ROLE
 import jakarta.persistence.*
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.GenerationType.AUTO
@@ -35,4 +36,19 @@ class Member(
 
     @Column(nullable = false, length = 30)
     val email: String
+)
+
+@Entity
+class MemberRole(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null,
+
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    val role: ROLE,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_member_id"))
+    val member: Member
 )
