@@ -36,13 +36,16 @@ class Member(
 
     @Column(nullable = false, length = 30)
     val email: String
-)
+) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    val memberRole: List<MemberRole>? = null
+}
 
 @Entity
 class MemberRole(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null,
+    var no: Long? = null,
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
