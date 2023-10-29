@@ -11,11 +11,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class MemberDtoRequest(
-    val no: Long?,
+    var id: Long?,
 
     @field: NotBlank
-    @JsonProperty("id")
-    private val _id: String?,
+    @JsonProperty("memberId")
+    private val _memberId: String?,
 
     @field: NotBlank
     @field: Pattern(
@@ -47,8 +47,8 @@ data class MemberDtoRequest(
     @JsonProperty("email")
     private val _email: String?
 ) {
-    val id: String
-        get() = _id!!
+    val memberId: String
+        get() = _memberId!!
 
     val password: String
         get() = _password!!
@@ -70,20 +70,29 @@ data class MemberDtoRequest(
         LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     fun toEntity(): Member =
-        Member(no, id, password, name, birthDate, gender, email)
+        Member(id, memberId, password, name, birthDate, gender, email)
 }
 
 data class LoginDto(
     @field:NotBlank
-    @JsonProperty("id")
-    private val _id: String?,
+    @JsonProperty("memberId")
+    private val _memberId: String?,
 
     @field:NotBlank
     @JsonProperty("password")
     private val _password: String?,
 ){
     val id: String
-        get() = _id!!
+        get() = _memberId!!
     val password: String
         get() = _password!!
 }
+
+data class MemberDtoResponse(
+    val id: Long,
+    val memberId: String,
+    val name: String,
+    val birthDate: String,
+    val gender: String,
+    val email: String
+)

@@ -2,11 +2,13 @@ package com.jake.kopring.member.entity
 
 import com.jake.kopring.common.status.Gender
 import com.jake.kopring.common.status.ROLE
+import com.jake.kopring.member.dto.MemberDtoResponse
 import jakarta.persistence.*
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.GenerationType.AUTO
 import jakarta.persistence.TemporalType.DATE
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Entity
 @Table(
@@ -15,7 +17,7 @@ import java.time.LocalDate
 class Member(
     @Id
     @GeneratedValue(strategy = AUTO)
-    var no: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false, length = 30, updatable = false)
     val memberId: String,
@@ -39,13 +41,19 @@ class Member(
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: List<MemberRole>? = null
+
+    private fun LocalDate.formatDate(): String =
+        this.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+
+    fun toDto(): MemberDtoResponse =
+        MemberDtoResponse(id!!, memberId, name, birthDate.formatDate(), gender.desc, email)
 }
 
 @Entity
 class MemberRole(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var no: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)

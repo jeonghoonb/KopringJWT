@@ -1,5 +1,6 @@
 package com.jake.kopring.common.authority
 
+import com.jake.kopring.common.dto.CustomUser
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -34,6 +35,7 @@ class JwtProvider {
             .builder()
             .setSubject(authentication.name)
             .claim("auth", authorities)
+            .claim("userId", (authentication.principal as CustomUser).userId)
             .setIssuedAt(now)
             .setExpiration(accessExpiration)
             .signWith(key, SignatureAlgorithm.HS256)
@@ -45,10 +47,11 @@ class JwtProvider {
     fun getAuthentication(token: String): Authentication {
         val claims: Claims = getClaims(token)
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")
+        val userId = claims["userId"] ?: throw RuntimeException("잘못된 토큰입니다.")
         val authorities: Collection<GrantedAuthority> = (auth as String)
             .split(",")
             .map { SimpleGrantedAuthority(it) }
-        val principal: UserDetails = User(claims.subject, "", authorities)
+        val principal: UserDetails = CustomUser(userId.toString().toLong(), claims.subject, "", authorities)
 
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
 
